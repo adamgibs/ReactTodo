@@ -8,11 +8,11 @@ var AddTodo = React.createClass({
     if(todo.length > 0){
       this.refs.todo.value = "";
       this.props.onAdd(todo);
-    } 
+    }
   },
   render: function(){
     return(
-    <div>
+    <div className='container__footer'>
       <form ref = 'form' onSubmit={this.onFormSubmit}>
         <input type='text' placeholder='Add a todo item' ref='todo'/>
         <br/>
