@@ -5,8 +5,9 @@ var moment = require('moment');
 
 import TodoList from 'TodoList';
 import AddTodo from 'AddTodo';
-var TodoSearch = require('TodoSearch');
+import TodoSearch from 'TodoSearch';
 var TodoAPI = require('TodoAPI');
+var { connect } = require('react-redux');
 
 
 
