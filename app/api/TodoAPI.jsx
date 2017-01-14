@@ -1,6 +1,5 @@
 var $ = require('jquery');
 
-
 module.exports = {
   setTodos: function(todos){
     if($.isArray(todos)){
@@ -29,7 +28,7 @@ module.exports = {
     });
 
     filteredTodos = filteredTodos.filter((todo) => {
-      return searchText.length === 0 || todo.text.toLowerCase().indexOf(searchText) !== -1
+      return searchText.length === 0 || todo.text.toLowerCase().indexOf(searchText) !== -1;
 
     });
 

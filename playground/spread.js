@@ -16,4 +16,4 @@ var final = ['Adam', ...names];
 
 final.forEach(function(name){
   console.log('Hi ' + name + '.');
-})
+});
