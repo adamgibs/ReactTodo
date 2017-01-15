@@ -84,13 +84,20 @@ it('should create todo and dispatch ADD_TODO', (done) => {  //done lets Mocha kn
   describe('Tests with Firebase todos', () => {
     var testTodoRef;
 
-    beforeEach((done) => {
-      testTodoRef = firebaseRef.child('todos').push();
-      testTodoRef.set({
-        text: "here's something",
-        completed: false,
-        createdAt: 123412
-      }).then(() => done());
+    beforeEach((done) => { //creates a dummy todo before each test. Needed for async tests
+      var todosRef = firebaseRef.child('todos');
+
+      todosRef.remove().then(() => {
+        testTodoRef = firebaseRef.child('todos').push();
+
+        return testTodoRef.set({
+          text: "here's something",
+          completed: false,
+          createdAt: 123412
+        })
+      })
+      .then(() => done())
+      .catch(done);
     });
 
     afterEach((done) => {
@@ -113,8 +120,22 @@ it('should create todo and dispatch ADD_TODO', (done) => {  //done lets Mocha kn
           completed: true
         });
         expect(mockActions[0].updates.completedAt).toExist();
+
       }, done());
     });
-  });
 
+      it('should populate todos and dispatch ADD_TODOS', (done) => {
+        const store = createMockStore({});
+        const action = actions.startAddTodos();
+
+        store.dispatch(action).then(() => {
+          const mockActions = store.getActions();
+
+          expect(mockActions[0].todos).toExist();
+          expect(mockActions[0].type).toEqual({type: 'ADD_TODOS'});
+          expect(mockActions[0].todos.length).toEqual(1);
+          expect(mockActions[0].todos.text).toEqual("here's something");
+      }, done());
+  });
+});
 });

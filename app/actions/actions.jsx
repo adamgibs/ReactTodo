@@ -22,7 +22,7 @@ export var addTodo = (todo) => {
   };
 };
 
-//may need to add the addTodos action back in at some point
+
 
 export var startAddTodo = (text) => {
   return (dispatch, getState) => {
@@ -43,6 +43,35 @@ export var startAddTodo = (text) => {
     });
   };
 };
+
+export var addTodos = (todos) => {
+  return {
+    type: 'ADD_TODOS',
+    todos
+  }
+};
+
+export var startAddTodos = () => {
+  return(dispatch, getState) => {
+    var todosRef = firebaseRef.child('todos');
+    return todosRef.once('value').then((snapshot) => { //putting all the logic in the async promise.
+      var todos = [];
+      var keyArray = Object.keys(snapshot.val());
+      keyArray.forEach((key) => {
+        todos.push(snapshot.val()[key]);
+      });
+
+      for(var i = 0; i < keyArray.length; i++){
+        todos[i].id = keyArray[i];
+      };
+      dispatch(addTodos(todos));
+    }, (e) => {
+      console.log('Unable to fetch data');
+    });
+
+  };
+};
+
 export var updateTodo = (id, updates) => {
   return {
     type: 'UPDATE_TODO',
